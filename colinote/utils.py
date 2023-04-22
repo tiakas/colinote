@@ -1,15 +1,64 @@
 import json
 import os
+import sys
+from pathlib import Path
 from typing import List, Union
 
-from colinote.config import data_file
 from colinote.data_types import Note
+
+
+def default_dir() -> str:
+    """Get default data file directory"""
+    if sys.platform == "win32":
+        config_dir = os.path.join(os.environ["APPDATA"], "colinotes")
+    else:
+        config_dir = os.path.join(os.path.expanduser("~"), ".config", "colinotes")
+    return config_dir
+
+
+def default_config() -> dict:
+    """Get default configuration"""
+    config = {"file_name": "colinotes.json", "file_dir": default_dir()}
+    return config
+
+
+def read_config() -> dict:
+    """Get config file location"""
+    config_file = os.path.join(default_dir(), "config.json")
+    try:
+        with open(config_file, "r") as f:
+            config = json.load(f)
+    except FileNotFoundError:
+        config = default_config()
+        write_config(config)
+
+    return config
+
+
+def write_config(config: dict) -> None:
+    """
+    Writes configuration file to default directory based on user's OS
+    """
+    config_dir = default_dir()
+    config = default_config()
+
+    Path(config_dir).mkdir(parents=True, exist_ok=True)
+    config_file = os.path.join(config_dir, "config.json")
+
+    with open(config_file, "w") as f:
+        json.dump(config, f)
+
+
+def get_data_file() -> str:
+    """Get data file location"""
+    config = read_config()
+    return os.path.join(config["file_dir"], config["file_name"])
 
 
 def load_notes() -> List[Note]:
     """Load notes from data file"""
-    if os.path.exists(data_file):
-        with open(data_file, "r") as f:
+    if os.path.exists(get_data_file()):
+        with open(get_data_file(), "r") as f:
             data = json.load(f)
             return [Note.from_dict(d) for d in data]
     else:
@@ -19,7 +68,7 @@ def load_notes() -> List[Note]:
 def save_notes(notes: List[Note]):
     """Save notes to data file"""
     data = [note.to_dict() for note in notes]
-    with open(data_file, "w") as f:
+    with open(get_data_file(), "w") as f:
         json.dump(data, f, indent=4)
 
 
