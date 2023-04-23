@@ -1,43 +1,107 @@
-This is a command line interface (CLI) program that allows users to manage their contacts. Users can add new contacts, view existing contacts, update contacts, and delete contacts.
+# Colinote
 
-Getting Started
-Prerequisites
-Python 3.6 or higher
-Pip package manager
-Installation
-Clone the repository:
-bash
-Copy code
-git clone https://github.com/<username>/<repository-name>.git
-Navigate to the project directory:
-bash
-Copy code
-cd <repository-name>
-Install the dependencies:
-Copy code
-pip install -r requirements.txt
-Usage
-To start the program, run the following command in your terminal:
+Colinote is a command-line tool for managing notes.
 
-Copy code
-python cli.py
-Once the program is running, you can use the following commands:
+## Installation
 
-add: Adds a new contact to the list. The user will be prompted to enter the contact's name, phone number, and email address.
-show: Displays a list of all contacts.
-update: Updates an existing contact. The user will be prompted to enter the name of the contact to update, as well as the new phone number and email address.
-delete: Deletes an existing contact. The user will be prompted to enter the name of the contact to delete.
-exit: Exits the program.
-Running the tests
-This project uses the Pytest library for testing. To run the tests, navigate to the project directory and run the following command:
+You can install Colinote using pip:
 
-Copy code
+```
+pip install colinote
+```
+
+
+## Usage
+
+To use Colinote, simply run the colinote command followed by the action you want to perform and any relevant options.
+
+## Actions
+*add:* Add a new note to a context.
+
+*edit:* Edit an existing note.
+
+*delete:* Delete an existing note.
+
+*show*: List all notes or all notes for a specific id,context or date.
+
+*Options*
+- *-c, --context:* The context for the note.
+- *-t, --text:* The text of the note.
+- *-d, --date:* The date of the note (in the format "YYYY-MM-DD").
+- *-i, --id:* The ID of the note.
+
+### Examples
+
+*Add a note in default context (todo)*
+```
+colinote add "I did something amazing"
+```
+
+*Add a note in context "standup"*
+```
+colinote add "I did something amazing" -c "standup"
+```
+
+*Edit a note with id 1 and change the text*
+```
+colinote edit 1 -t "I did something even more amazing"
+```
+
+*Edit a note with id 1 and change the context*
+```
+colinote edit 1 -c "standup"
+```
+
+*Delete note with id 1*
+```
+colinote delete 1
+```
+
+*List all notes*
+```
+colinote show
+```
+
+*List all notes for a specific context*
+```
+colinote show -c "work"
+```
+
+*List all notes for a specific date*
+```
+colinote show -d "2023-01-01"
+```
+
+*Show a specific note*
+```
+colinote show -i 1
+```
+
+## Development
+
+To develop Colinote, first clone the repository:
+```
+git clone https://github.com/tiakas/colinote.git`
+cd colinote
+```
+Then, install the development dependencies:
+
+```
+pip install -r requirements-dev.txt
+```
+
+To run the tests, use:
+```
 pytest
-Built With
-Python 3.6
-Click - A Python package for creating command line interfaces.
-Rich - A Python package for styling console output.
-Authors
-Your Name - Your GitHub Profile
-License
+```
+
+To build the package, use:
+```
+python setup.py sdist bdist_wheel
+```
+
+This will create a dist directory containing the source distribution (*.tar.gz) and wheel distribution (*.whl) of the package.
+
+## License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
