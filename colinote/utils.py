@@ -17,13 +17,13 @@ def default_dir() -> str:
 
 
 def default_config() -> dict:
-    """Get default configuration"""
+    """Get default configuration values"""
     config = {"file_name": "colinotes.json", "file_dir": default_dir()}
     return config
 
 
 def read_config() -> dict:
-    """Get config file location"""
+    """Get configuration from config file"""
     config_file = os.path.join(default_dir(), "config.json")
     try:
         with open(config_file, "r") as f:
@@ -37,10 +37,10 @@ def read_config() -> dict:
 
 def write_config(config: dict) -> None:
     """
-    Writes configuration file to default directory based on user's OS
+    Writes configuration to config file in default directory
     """
     config_dir = default_dir()
-    config = default_config()
+    config = config or default_config()
 
     Path(config_dir).mkdir(parents=True, exist_ok=True)
     config_file = os.path.join(config_dir, "config.json")
