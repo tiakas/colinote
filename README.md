@@ -77,6 +77,13 @@ colinote show -d "2023-01-01"
 colinote show -i 1
 ```
 
+## Contributing
+Contributions are always welcome! Here are some ways to contribute:
+
+- Fork the repository and make changes on your local branch.
+- Create a pull request with your changes.
+- Work on open issues.
+
 ## Development
 
 To develop Colinote, first clone the repository:
@@ -87,7 +94,7 @@ cd colinote
 Then, install the development dependencies:
 
 ```
-pip install -r requirements-dev.txt
+pip install -r requirements.txt
 ```
 
 To run the tests, use:

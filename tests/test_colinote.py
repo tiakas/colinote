@@ -89,3 +89,22 @@ class TestActions(TestCase):
             with open(self.notes_file, "r") as f:
                 data = json.load(f)
                 assert len(data) == 0
+
+    def test_delete_with_no_notes(self):
+        with self.cli.isolated_filesystem():
+            result = self.cli.invoke(delete, ["1"])
+            assert result.output == "No note found with id 1\n"
+
+    def test_delete_with_no_id(self):
+        with self.cli.isolated_filesystem():
+            self.cli.invoke(add, ["I'm the first message"])
+
+            result = self.cli.invoke(delete)
+            assert "Missing argument 'ID'." in result.output
+
+    def test_delete_with_invalid_id(self):
+        with self.cli.isolated_filesystem():
+            self.cli.invoke(add, ["I'm the first message"])
+
+            result = self.cli.invoke(delete, ["a"])
+            assert "Invalid value for 'ID': 'a' is not a valid integer" in result.output
